@@ -1,34 +1,79 @@
 package com.supplyflow.supplyflowapplication.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
 
 @Entity
+@Table(name = "products")
 public class Product {
-    public Product() {
-    }
-
-    public int getId1() {
-        return id1;
-    }
-
-    public void setId1(int id1) {
-        this.id1 = id1;
-    }
-
     @Id
-    private int id1;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(nullable = false)
     private String name;
     private String category;
     private double price;
-    private int quantity;
+    private int quantity = 0;
 
-    public Product(int id, int quantity, double price, String category, String name) {
-        this.id = id;
+    @ManyToOne
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
+
+    public Product() {}
+
+    public Product(String name, String category, int quantity, double price) {
+        this.name = name;
+        this.category = category;
         this.quantity = quantity;
         this.price = price;
-        this.category = category;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 }
