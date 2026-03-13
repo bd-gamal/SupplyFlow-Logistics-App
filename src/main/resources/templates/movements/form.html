@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>SupplyFlow - Nouveau Mouvement</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen font-sans">
+
+<div class="bg-white p-8 rounded shadow-lg w-full max-w-md border-t-4 border-yellow-500">
+  <h2 class="text-2xl font-bold mb-6 text-gray-800 text-center">Enregistrer un Mouvement</h2>
+
+  <div th:if="${error}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm font-semibold" th:text="${error}">
+  </div>
+
+  <form th:action="@{/movements/save}" th:object="${movement}" method="post" class="space-y-4">
+
+    <div>
+      <label class="block text-gray-700 mb-1 font-semibold">Produit</label>
+      <select th:field="*{product}" required class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-yellow-500">
+        <option th:each="p : ${products}" th:value="${p.id}" th:text="${p.name} + ' (Stock: ' + ${p.quantity} + ')'"></option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-gray-700 mb-1 font-semibold">Type de mouvement</label>
+      <select th:field="*{type}" required class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-yellow-500">
+        <option value="IN">Entrée (Réception)</option>
+        <option value="OUT">Sortie (Expédition)</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-gray-700 mb-1 font-semibold">Quantité</label>
+      <input type="number" min="1" th:field="*{quantity}" required class="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-yellow-500">
+    </div>
+
+    <div class="flex justify-between mt-6">
+      <a href="/products" class="text-gray-500 hover:text-gray-700 py-2">Annuler</a>
+      <button type="submit" class="bg-yellow-500 text-white px-6 py-2 rounded shadow hover:bg-yellow-600 transition">Valider l'opération</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>

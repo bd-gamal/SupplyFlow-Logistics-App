@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SupplyFlow - Produits</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+<nav class="bg-blue-800 p-4 text-white shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+        <a href="/products" class="text-2xl font-bold tracking-wider">📦 SupplyFlow</a>
+        <div class="space-x-4">
+            <a href="/products" class="hover:text-blue-300">Produits</a>
+            <a href="/suppliers" class="hover:text-blue-300">Fournisseurs</a>
+            <a href="/movements" class="hover:text-blue-300">Mouvements</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mx-auto mt-8 p-4">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-700">Gestion des Produits</h1>
+        <div class="bg-blue-100 text-blue-800 px-4 py-2 rounded shadow">
+            Total Produits: <span class="font-bold text-xl" th:text="${totalProducts}">0</span>
+        </div>
+    </div>
+
+    <div class="flex justify-between items-center mb-6 bg-white p-4 rounded shadow">
+        <form th:action="@{/products/search}" method="get" class="flex gap-2">
+            <input type="text" name="keyword" placeholder="Rechercher par nom..." class="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition">Chercher</button>
+        </form>
+        <a href="/products/new" class="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-500 transition">+ Nouveau Produit</a>
+    </div>
+
+    <div class="bg-white rounded shadow overflow-hidden">
+        <table class="min-w-full text-left border-collapse">
+            <thead class="bg-gray-200">
+            <tr>
+                <th class="p-4 border-b">ID</th>
+                <th class="p-4 border-b">Nom</th>
+                <th class="p-4 border-b">Catégorie</th>
+                <th class="p-4 border-b">Prix</th>
+                <th class="p-4 border-b">Stock</th>
+                <th class="p-4 border-b">Fournisseur</th>
+                <th class="p-4 border-b text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${products}" class="hover:bg-gray-50 border-b">
+                <td class="p-4" th:text="${p.id}">1</td>
+                <td class="p-4 font-semibold" th:text="${p.name}">Nom</td>
+                <td class="p-4" th:text="${p.category}">Catégorie</td>
+                <td class="p-4 font-mono text-blue-600" th:text="${p.price} + ' DH'">0.00</td>
+                <td class="p-4">
+                    <span th:classappend="${p.quantity > 5 ? 'text-green-600' : 'text-red-600 font-bold'}" th:text="${p.quantity}">0</span>
+                </td>
+                <td class="p-4" th:text="${p.supplier != null ? p.supplier.name : 'N/A'}">Fournisseur</td>
+                <td class="p-4 text-center space-x-2">
+                    <a th:href="@{/products/edit/{id}(id=${p.id})}" class="text-blue-500 hover:underline">Modifier</a>
+                    <a th:href="@{/products/delete/{id}(id=${p.id})}" class="text-red-500 hover:underline" onclick="return confirm('Êtes-vous sûr ?')">Supprimer</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
