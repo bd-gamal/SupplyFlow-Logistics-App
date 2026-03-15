@@ -33,7 +33,7 @@ public class ProductController {
         return "products/form";
     }
 
-    @GetMapping("/save")
+    @PostMapping("/save")
     public String saveProduct(@ModelAttribute("product") Product product) {
         productService.saveProduct(product);
         return "redirect:/products";
@@ -44,16 +44,16 @@ public class ProductController {
         Product product = productService.getProductById(id);
         if (product != null) {
             model.addAttribute("product", product);
-            model.addAttribute("suppliers");
+            model.addAttribute("suppliers", supplierService.getAllSuppliers());
             return "products/form";
         }
-        return "redirect:/product";
+        return "redirect:/products";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable int id) {
-        productService.getProductById(id);
-        return "redirect:/product";
+        productService.deleteProduct(id);
+        return "redirect:/products";
     }
 
     @GetMapping("/search")

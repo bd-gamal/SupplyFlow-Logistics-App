@@ -30,7 +30,7 @@ public class StockMovementController {
 
     @GetMapping("/new")
     public String showMovementsForm(Model model) {
-        model.addAttribute("movements", new StockMovement());
+        model.addAttribute("movement", new StockMovement());
         model.addAttribute("products", productService.getAllProducts());
         model.addAttribute("types", MovementType.values());
         return "movements/form";
