@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SupplyFlow - History of Movements</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+<nav class="bg-blue-800 p-4 text-white shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+        <a href="/products" class="text-2xl font-bold tracking-wider">📦 SupplyFlow</a>
+        <div class="space-x-4">
+            <a href="/products" class="hover:text-blue-300">Produits</a>
+            <a href="/suppliers" class="hover:text-blue-300">Fournisseurs</a>
+            <a href="/movements" class="hover:text-blue-300 font-bold underline">Mouvements</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mx-auto mt-8 p-4">
+    <div class="flex justify-between items-center mb-6 bg-white p-4 rounded shadow">
+        <h1 class="text-3xl font-bold text-gray-700">Historique des Stocks</h1>
+        <a href="/movements/new" class="bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-400 transition text-gray-900">+ Saisir un Mouvement</a>
+    </div>
+
+    <div class="bg-white rounded shadow overflow-hidden">
+        <table class="min-w-full text-left border-collapse">
+            <thead class="bg-gray-200">
+            <tr>
+                <th class="p-4 border-b">ID</th>
+                <th class="p-4 border-b">Date</th>
+                <th class="p-4 border-b">Type</th>
+                <th class="p-4 border-b">Produit</th>
+                <th class="p-4 border-b text-right">Quantité Mouvementée</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="m : ${movements}" class="hover:bg-gray-50 border-b">
+                <td class="p-4 text-gray-500" th:text="${m.id}">1</td>
+                <td class="p-4" th:text="${#temporals.format(m.movementDate, 'dd-MM-yyyy HH:mm')}">Date</td>
+                <td class="p-4">
+                    <span th:if="${m.type.name() == 'IN'}" class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm font-bold">ENTRÉE</span>
+                    <span th:if="${m.type.name() == 'OUT'}" class="bg-red-100 text-red-800 px-2 py-1 rounded text-sm font-bold">SORTIE</span>
+                </td>
+                <td class="p-4 font-semibold" th:text="${m.product.name}">Produit</td>
+                <td class="p-4 text-right font-mono text-lg" th:text="${m.type.name() == 'IN' ? '+' + m.quantity : '-' + m.quantity}">0</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

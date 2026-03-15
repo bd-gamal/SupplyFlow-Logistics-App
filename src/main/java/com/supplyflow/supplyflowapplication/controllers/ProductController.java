@@ -29,7 +29,7 @@ public class ProductController {
     @GetMapping("/new")
     public String showAddForm(Model model) {
         model.addAttribute("product", new Product());
-        model.addAttribute("supplier", supplierService.getAllSuppliers());
+        model.addAttribute("suppliers", supplierService.getAllSuppliers());
         return "products/form";
     }
 
